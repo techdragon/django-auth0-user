@@ -1,0 +1,16 @@
+[paths]
+source =
+   src/django_auth0_auth
+   */site-packages/django_auth0_auth
+
+[run]
+branch = true
+source =
+    django_auth0_auth
+    tests
+parallel = true
+
+[report]
+show_missing = true
+precision = 2
+omit = *migrations*
