@@ -67,6 +67,19 @@ setup(
     ],
     install_requires=[
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
+        'social-auth-core>=1.4.0',
+        'social-auth-app-django>=1.2.0',
+        'pyjwkest>=1.0.1',
+        'django>=1.10',
+    ],
+    tests_require=[
+        'auth0-python>=3.0.0',
+        'django-environ>=0.4.3',
+        'djangorestframework>=3.6.0',
+        'pytest>=3.0.0',
+        'pytest-django>=3.1.0',
+        'django-extensions>=1.7.9',
+        'django-debug-toolbar>=1.8',
     ],
     extras_require={
         # eg:

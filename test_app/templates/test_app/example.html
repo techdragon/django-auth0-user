@@ -1,0 +1,17 @@
+<html>
+    <body>
+        {% if user.is_authenticated %}
+            <p>Current user: {{ user.email }}</p>
+            <p>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Log Out">
+                </form>
+            </p>
+            <p><a href="{%  url 'admin:index' %}">Admin</a></p>
+        {% else %}
+            <a href="{% url 'social:begin' 'auth0' %}">Login</a>
+            <p><a href="{%  url 'admin:index' %}">Admin</a></p>
+        {% endif %}
+    </body>
+</html>
