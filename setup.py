@@ -76,10 +76,12 @@ setup(
         'auth0-python>=3.0.0',
         'django-environ>=0.4.3',
         'djangorestframework>=3.6.0',
-        'pytest>=3.0.0',
-        'pytest-django>=3.1.0',
         'django-extensions>=1.7.9',
         'django-debug-toolbar>=1.8',
+        'pytest>=3.0.0',
+        'pytest-django>=3.1.0',
+        "selenium>=3.4.3",
+        "elizabeth==0.3.30",
     ],
     extras_require={
         # eg:
