@@ -1,7 +1,7 @@
 <html>
     <body>
         {% if user.is_authenticated %}
-            <p>Current user: {{ user.email }}</p>
+            <p >Current user: <span id="user-email">{{ user.email }}</span></p>
             <p>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}

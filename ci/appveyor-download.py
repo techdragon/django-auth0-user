@@ -95,7 +95,7 @@ def unpack_zipfile(filename):
 parser = argparse.ArgumentParser(description='Download artifacts from AppVeyor.')
 parser.add_argument('--id',
                     metavar='PROJECT_ID',
-                    default='techdragon/django-auth0-auth',
+                    default='techdragon/django-auth0-user',
                     help='Project ID in AppVeyor.')
 parser.add_argument('build',
                     nargs='?',

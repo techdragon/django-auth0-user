@@ -63,4 +63,5 @@ docs/_build
 .appveyor.token
 *.bak
 /test.db
-/geckodriver.log
+geckodriver.log
+ghostdriver.log

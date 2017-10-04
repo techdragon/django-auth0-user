@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     "django.contrib.sessions",
     'social_django',
-    "django_auth0_auth",
+    "django_auth0_user",
     "tests",
     'test_app',
     'django_extensions',
@@ -106,7 +106,7 @@ else:
 
 
 # AUTH_USER_MODEL = 'auth.User'
-AUTH_USER_MODEL = 'django_auth0_auth.Auth0User'
+AUTH_USER_MODEL = 'django_auth0_user.Auth0User'
 
 
 LOGOUT_REDIRECT_URL = '/'
@@ -116,16 +116,16 @@ env.read_env(environ.Path(__file__, is_file=True)('.env'))
 AUTH0_DOMAIN = env('AUTH0_USER_DOMAIN')
 AUTH0_OIDC_URL = 'https://{}'.format(AUTH0_DOMAIN)
 
-AUTH0_USER_NON_INTERACTIVE_CLIENT_ID = env('AUTH0_USER_NON_INTERACTIVE_CLIENT_ID')
-AUTH0_USER_NON_INTERACTIVE_CLIENT_SECRET = env('AUTH0_USER_NON_INTERACTIVE_CLIENT_SECRET')
+AUTH0_MANAGEMENT_API_CLIENT_ID = env('AUTH0_MANAGEMENT_API_CLIENT_ID')
+AUTH0_MANAGEMENT_API_CLIENT_SECRET = env('AUTH0_MANAGEMENT_API_CLIENT_SECRET')
 
 
-# SOCIAL_AUTH_USER_MODEL = 'django_auth0_auth.models.Auth0User'
+# SOCIAL_AUTH_USER_MODEL = 'django_auth0_user.models.Auth0User'
 SOCIAL_AUTH_AUTHENTICATION_BACKENDS = [
-    'django_auth0_auth.backend.Auth0OpenId'
+    'django_auth0_user.backend.Auth0OpenId'
 ]
 AUTHENTICATION_BACKENDS = (
-    'django_auth0_auth.backend.Auth0OpenId',
+    'django_auth0_user.backend.Auth0OpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
 SOCIAL_AUTH_AUTH0_KEY = env('AUTH0_WEB_SITE_CLIENT_ID')

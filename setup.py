@@ -23,7 +23,7 @@ def read(*names, **kwargs):
 
 
 setup(
-    name='django-auth0-auth',
+    name='django-auth0-user',
     version='0.2.0',
     license='BSD license',
     description='Django Authentication and Authorisation using Auth0 and Python Social Auth',
@@ -33,7 +33,7 @@ setup(
     ),
     author='Samuel Bishop',
     author_email='sam@techdragon.io',
-    url='https://github.com/techdragon/django-auth0-auth',
+    url='https://github.com/techdragon/django-auth0-user',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
@@ -71,6 +71,7 @@ setup(
         'social-auth-app-django>=1.2.0',
         'pyjwkest>=1.0.1',
         'django>=1.10',
+        "cached-property>=1.3.0",
     ],
     tests_require=[
         'auth0-python>=3.0.0',
@@ -82,6 +83,7 @@ setup(
         'pytest-django>=3.1.0',
         "selenium>=3.4.3",
         "elizabeth==0.3.30",
+        'retryz>=0.1.9',
     ],
     extras_require={
         # eg:

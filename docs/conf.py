@@ -31,8 +31,8 @@ version = release = u'0.2.0'
 pygments_style = 'trac'
 templates_path = ['.']
 extlinks = {
-    'issue': ('https://github.com/techdragon/django-auth0-auth/issues/%s', '#'),
-    'pr': ('https://github.com/techdragon/django-auth0-auth/pull/%s', 'PR #'),
+    'issue': ('https://github.com/techdragon/django-auth0-user/issues/%s', '#'),
+    'pr': ('https://github.com/techdragon/django-auth0-user/pull/%s', 'PR #'),
 }
 # on_rtd is whether we are on readthedocs.org
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'

@@ -5,8 +5,7 @@ from tests.utils.auth0 import delete_all_auth0_users_with_confirmation
 from tests.utils.auth0 import create_multiple_auth0_users_and_confirm
 from tests.utils.auth0 import pause_and_confirm_total_auth0_users
 from tests.utils.django import delete_all_django_users
-from django_db_auth0_user.models import Auth0User
-# from tests.utils.auth0 import set_number_of_auth0_users
+from django_auth0_user.models import Auth0User
 import pytest
 import logging
 
@@ -15,6 +14,23 @@ logger = logging.getLogger(__name__)
 
 
 DELAY = 15
+
+
+@pytest.fixture(scope="class")
+def one_auth0_user(request):
+    """
+    Pytest fixture providing one Auth0 user for testing.
+
+    Create a new user in Auth0 and add it to the class of our requesting test case class at runtime.
+    This is a little different than most PyTest fixtures because are working around the fact that
+    we are using SeleniumTestCase for some tests, which as a subclass of TestCase cannot use normal
+    PyTest fixture based parametrization.
+
+    :param request:
+    :return:
+    """
+    users = create_multiple_auth0_users_and_confirm(1)
+    request.cls.user = users[0]
 
 
 @pytest.fixture(scope='function')

@@ -55,21 +55,21 @@ def auth0_user_is_active(auth0_user):
 
 
 AUTH0_USER_IS_SUPERUSER_CHECK_FUNCTION = getattr(settings, 'AUTH0_USER_IS_SUPERUSER_CHECK_FUNCTION',
-                                                  'django_db_auth0_user.permission_checks.auth0_user_is_superuser')
+                                                 'django_auth0_user.permission_checks.auth0_user_is_superuser')
 supervisor_module_name, supervisor_func_name = AUTH0_USER_IS_SUPERUSER_CHECK_FUNCTION.rsplit('.', 1)
 supervisor_module = importlib.import_module(supervisor_module_name)
 IS_SUPERUSER = getattr(supervisor_module, supervisor_func_name)
 
 
 AUTH0_USER_IS_STAFF_CHECK_FUNCTION = getattr(settings, 'AUTH0_USER_IS_STAFF_CHECK_FUNCTION',
-                                             'django_db_auth0_user.permission_checks.auth0_user_is_staff')
+                                             'django_auth0_user.permission_checks.auth0_user_is_staff')
 staff_module_name, staff_func_name = AUTH0_USER_IS_STAFF_CHECK_FUNCTION.rsplit('.', 1)
 staff_module = importlib.import_module(staff_module_name)
 IS_STAFF = getattr(staff_module, staff_func_name)
 
 
 AUTH0_USER_IS_ACTIVE_CHECK_FUNCTION = getattr(settings, 'AUTH0_USER_IS_ACTIVE_CHECK_FUNCTION',
-                                              'django_db_auth0_user.permission_checks.auth0_user_is_active')
+                                              'django_auth0_user.permission_checks.auth0_user_is_active')
 active_module_name, active_func_name = AUTH0_USER_IS_ACTIVE_CHECK_FUNCTION.rsplit('.', 1)
 active_module = importlib.import_module(active_module_name)
 IS_ACTIVE = getattr(active_module, active_func_name)
