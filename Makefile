@@ -59,13 +59,16 @@ sdist: clean
 	ls -l dist
 
 # TODO: Tidy these up and contribute them to the upstream cookiecutter.
+setup-clean:
+	python setup.py clean --all
+
 build-sdist:
-	python setup.py clean --all sdist
+	python setup.py sdist
 
 build-bdist:
-	python setup.py clean --all bdist_wheel
+	python setup.py bdist_wheel
 
-build: clean build-sdist build-bdist
+build: clean setup-clean build-sdist build-bdist
 	ls -l dist
 
 upload:
