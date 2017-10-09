@@ -211,7 +211,7 @@ def create_multiple_auth0_users_and_confirm(number_of_users_to_create, auth0=Non
         logger.info("generated a new auth0 user: {}".format(user))
         user_list.append({**test_user_details, **user})
 
-    # TODO: Pass in a list of users and query to check they are all in auth0, retry untill they are all in auth0.
+    # TODO: Pass in a list of users and query to check they are all in auth0, retry until they are all in auth0.
     @retry(wait=5, timeout=300, on_return=False)
     def confirm(_user_list):
         _user_ids = [_x['user_id'] for _x in _user_list]
