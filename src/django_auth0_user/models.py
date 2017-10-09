@@ -1,16 +1,13 @@
 from __future__ import unicode_literals
+
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractUser
+
 from .validators import Auth0UserIdValidator
-from .permission_checks import IS_STAFF
-from .permission_checks import IS_ACTIVE
-from .permission_checks import IS_SUPERUSER
-from decorator import decorate
-from decorator import decorator
-from django.conf import settings
-from django.contrib.auth.validators import UnicodeUsernameValidator
 
 
 class AbstractAuth0User(AbstractUser):
@@ -73,8 +70,3 @@ class AbstractAuth0User(AbstractUser):
 
 # TODO: Move this into tests, or raise a warning when used?
 # Users of this library should have their own custom user model!
-class Auth0User(AbstractAuth0User):
-    """
-    A user model designed for easy use with Auth0
-    """
-    pass

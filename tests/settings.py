@@ -98,7 +98,7 @@ else:
 
 
 # AUTH_USER_MODEL = 'auth.User'
-AUTH_USER_MODEL = 'django_auth0_user.Auth0User'
+AUTH_USER_MODEL = 'test_app.Auth0User'
 
 
 LOGOUT_REDIRECT_URL = '/'

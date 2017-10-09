@@ -5,7 +5,7 @@ from tests.utils.auth0 import delete_all_auth0_users_with_confirmation
 from tests.utils.auth0 import create_multiple_auth0_users_and_confirm
 from tests.utils.auth0 import pause_and_confirm_total_auth0_users
 from tests.utils.django import delete_all_django_users
-from django_auth0_user.models import Auth0User
+from test_app.models import Auth0User
 import pytest
 import logging
 

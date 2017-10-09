@@ -1,4 +1,4 @@
-from django_auth0_user.models import Auth0User
+from test_app.models import Auth0User
 import logging
 
 
