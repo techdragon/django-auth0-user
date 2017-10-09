@@ -149,7 +149,7 @@ SOCIAL_AUTH_AUTH0_SECRET = env('AUTH0_WEB_SITE_CLIENT_SECRET')
 #     'django.contrib.auth.backends.ModelBackend'
 # }
 #
-# LOGIN_URL = "/login/auth0"
+LOGIN_URL = "/login/auth0/"
 # LOGIN_REDIRECT_URL = "/dashboard"
 # LOGOUT_REDIRECT_URL = "/"
 
