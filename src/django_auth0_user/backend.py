@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 class Auth0OpenId(OpenIdConnectAuth):
     """Auth0 OpenID authentication backend"""
     name = 'auth0'
-    # TODO: Fetch this from Django Settings.
+    # TODO: Implement a mechanism to automatically ensure that the callback urls are setup, using the Management API.
     OIDC_ENDPOINT = getattr(settings, 'AUTH0_OIDC_URL')
     ID_TOKEN_ISS = getattr(settings, 'AUTH0_OIDC_URL') + "/"
     USERNAME_KEY = 'user_id'
