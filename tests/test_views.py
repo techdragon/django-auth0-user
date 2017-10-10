@@ -42,3 +42,4 @@ class WebSiteAuthFlow(SeleniumTestCase):
         self.selenium.find_element_by_xpath('//button[@class="auth0-lock-submit"]').click()
         email_on_page = self.selenium.find_element_by_xpath('//span[@id="user-email"]').text
         assert email_on_page == user_email
+        # TODO: Assert something about the username being the auth0 user_id.
