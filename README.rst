@@ -74,6 +74,9 @@ Overview
 
 Django Authentication and Authorisation using Auth0 and Python Social Auth
 
+Warning, this library is under active development, it is also not 1.0 yet, and has a sort of 'production' user already. Documentation, bugs, features, and pretty much everything is in flux.
+
+
 * Free software: BSD license
 
 Installation
