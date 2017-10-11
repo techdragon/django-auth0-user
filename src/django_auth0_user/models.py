@@ -58,10 +58,16 @@ class AbstractAuth0User(AbstractUser):
 
     @property
     def user_metadata(self):
+        # TODO: Only do this is we are dealing with an OIDC compliant endpoint.
+        if self.namespaced_user_metadata_dict_key:
+            return self.auth0_data['id_token_payload'][self.namespaced_user_metadata_dict_key]
         return self.auth0_data['id_token_payload']['user_metadata']
 
     @property
     def app_metadata(self):
+        # TODO: Only do this is we are dealing with an OIDC compliant endpoint.
+        if self.namespaced_app_metadata_dict_key:
+            return self.auth0_data['id_token_payload'][self.namespaced_app_metadata_dict_key]
         return self.auth0_data['id_token_payload']['app_metadata']
 
     class Meta:
