@@ -136,3 +136,5 @@ def get_users_from_auth0(auth0_conn: Auth0):
                 yield u
 
 
+# TODO: Add a function to get an Auth0 client's details from the Management API
+# TODO: Add a function that returns true/false based on if the Auth0 client is configured to be OIDC conformant.

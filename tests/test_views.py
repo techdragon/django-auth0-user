@@ -8,6 +8,7 @@ import pytest
 from tests.utils.fixtures import one_auth0_user
 
 
+# TODO: Convert this into a non-class based test so we can drive it more flexibly via PyTest.
 @pytest.mark.usefixtures('one_auth0_user')
 class WebSiteAuthFlow(SeleniumTestCase):
     """
