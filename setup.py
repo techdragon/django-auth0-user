@@ -72,6 +72,7 @@ setup(
         'pyjwkest>=1.0.1',
         'django>=1.10',
         "cached-property>=1.3.0",
+        'six',
     ],
     tests_require=[
         'auth0-python>=3.0.0',

@@ -5,6 +5,7 @@ import base64, json, hmac, hashlib
 from calendar import timegm
 from datetime import datetime
 import logging
+from six.moves.urllib_parse import urlencode, unquote
 
 
 log = logging.getLogger(__name__)
@@ -15,6 +16,71 @@ log = logging.getLogger(__name__)
 # TODO: Add an option to ensure that metadata is returned via rules, using the Management API to set them up for users.
 # TODO: Use Django's checks framework/tools to warn about misconfiguration.
 #       e.g. OIDC Compliance + No Rule to include Metadata + Some future feature that depends on metadata.
+
+
+# Valid Lock v10 Configuration Parameters via Query String Arguments
+# http://auth0.com/docs/libraries/lock/v10/configuration
+AUTH0_ALLOWED_URL_PARAMETERS = (
+    # Display
+    'allow_autocomplete',
+    'allowed_connections',
+    'allow_show_password',
+    'autoclose',
+    'autofocus',
+    'avatar',
+    'closable',
+    'container',
+    'language',
+    'language_dictionary',
+    'popup_options',
+    'remember_last_login',
+
+    # Theming
+    'theme',
+    'auth_buttons',
+    'labeled_submit_button',
+    'logo',
+    'primary_color',
+
+    # Social
+    'social_button_style',
+
+    # Authentication
+    'auth'
+    'audience',
+    'auto_parse_hash',
+    'connection_scopes',
+    'params',
+    'redirect_url',
+    'response_mode',
+    'response_type',
+    'sso',
+
+    # Database
+    'additional_sign_up_fields',
+    'allow_login',
+    'allow_forgot_password',
+    'allow_sign_up',
+    'default_database_connection',
+    'initial_screen',
+    'login_after_sign_up',
+    'forgot_password_link',
+    'must_accept_terms',
+    'prefill',
+    'sign_up_link',
+    'username_style',
+
+    # Enterprise
+    'default_enterprise_connection',
+
+    # Other
+    'oidc_conformant',
+    'client_base_url',
+    'language_base_url',
+    'hash_cleanup',
+    'leeway',
+)
+
 
 class Auth0OpenId(OpenIdConnectAuth):
     """Auth0 OpenID authentication backend"""
@@ -38,3 +104,17 @@ class Auth0OpenId(OpenIdConnectAuth):
         # TODO: Don't just store everything here, be more selective.
         data['id_token_payload'] = self.id_token
         return data
+
+    def auth_url(self):
+        """Return redirect url"""
+        state = self.get_or_create_state()
+        params = self.auth_params(state)
+        params.update(self.get_scope_argument())
+        params.update(self.auth_extra_arguments())
+        params.update({_key: self.data[_key] for _key in self.data.keys() if _key in AUTH0_ALLOWED_URL_PARAMETERS})
+        params = urlencode(params)
+        if not self.REDIRECT_STATE:
+            # redirect_uri matching is strictly enforced, so match the
+            # providers value exactly.
+            params = unquote(params)
+        return '{0}?{1}'.format(self.authorization_url(), params)
