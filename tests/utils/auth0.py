@@ -1,14 +1,14 @@
 import logging
 import random
+from time import sleep
 
-from auth0.v3.management import Auth0
 from auth0.v3.exceptions import Auth0Error
+from auth0.v3.management import Auth0
 from django.conf import settings
 from elizabeth import Personal
 from retryz import retry
-from time import sleep
-from django_auth0_user.auth0_api import AUTH0_TOKEN_CACHE, get_auth0, get_users_from_auth0, get_auth0_user
 
+from django_auth0_user.auth0.api import AUTH0_TOKEN_CACHE, get_auth0, get_users_from_auth0, get_auth0_user
 
 logger = logging.getLogger(__name__)
 

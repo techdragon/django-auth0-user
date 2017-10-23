@@ -6,20 +6,7 @@ test_django-db-auth0-user
 
 Tests for `django-db-auth0-user` models module.
 """
-import pytest
-from django.test import TransactionTestCase
 # TODO: Remove Auth0User model & create an example custom user model. Everyone should have their own custom user model.
-from test_app.models import Auth0User
-from tests.utils.fixtures import delete_all_auth0_users
-from tests.utils.fixtures import delete_all_django_users
-from tests.utils.fixtures import one_user
-from tests.utils.fixtures import five_users
-from tests.utils.fixtures import ten_users
-from tests.utils.fixtures import with_33_auth0_users
-from tests.utils.fixtures import with_100_auth0_users
-from django_auth0_user.auth0_api import get_users_from_auth0
-from django_auth0_user.auth0_api import get_auth0
-from django_auth0_user.auth0_api import get_auth0_user
 import logging
 
 
