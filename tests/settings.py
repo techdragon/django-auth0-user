@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django_auth0_user",
     "tests",
     'test_app',
+    'rest_framework',
     'django_extensions',
     'debug_toolbar',
 ]
@@ -53,6 +54,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -64,19 +67,19 @@ STATICFILES_DIRS = [
 ]
 
 
-AUTH_TEMPLATES = [{
-    'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
-    'APP_DIRS': True,
-    'OPTIONS': {
-        'context_processors': [
-            'django.contrib.auth.context_processors.auth',
-            'django.contrib.messages.context_processors.messages',
-            'social_django.context_processors.backends',
-            'social_django.context_processors.login_redirect',
-        ],
-    },
-}]
+# AUTH_TEMPLATES = [{
+#     'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#     'DIRS': [os.path.join(os.path.dirname(__file__), 'templates')],
+#     'APP_DIRS': True,
+#     'OPTIONS': {
+#         'context_processors': [
+#             'django.contrib.auth.context_processors.auth',
+#             'django.contrib.messages.context_processors.messages',
+#             'social_django.context_processors.backends',
+#             'social_django.context_processors.login_redirect',
+#         ],
+#     },
+# }]
 
 SITE_ID = 1
 
@@ -118,7 +121,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-# SOCIAL_AUTH_USER_MODEL = 'django_auth0_user.models.Auth0User'
 SOCIAL_AUTH_AUTHENTICATION_BACKENDS = [
     'django_auth0_user.backend.Auth0OpenId'
 ]
@@ -150,26 +152,20 @@ SOCIAL_AUTH_AUTH0_SECRET = env('AUTH0_WEB_SITE_CLIENT_SECRET')
 # }
 #
 LOGIN_URL = "/login/auth0/"
-# LOGIN_REDIRECT_URL = "/dashboard"
-# LOGOUT_REDIRECT_URL = "/"
 
 
 # ---------------------------------
 # Django Rest Framework Stuff
 # ---------------------------------
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#     ),
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'oidc_auth.authentication.BearerTokenAuthentication',
-#         'oidc_auth.authentication.JSONWebTokenAuthentication',
-#         # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-#         # 'rest_framework_social_oauth2.authentication.SocialAuthentication',
-#         # 'rest_framework_auth0.authentication.Auth0JSONWebTokenAuthentication',
-#     ),
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'django_auth0_user.drf_authentication.SocialAuthentication',
+    ),
+}
 
 # ---------------------------------
 # Logging
