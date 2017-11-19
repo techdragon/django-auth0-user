@@ -28,18 +28,20 @@ class SocialAuthentication(BaseAuthentication):
         """
         auth_header = get_authorization_header(request).decode(HTTP_HEADER_ENCODING)
 
-        try:
-            auth_type, auth_token = auth_header.split()
-            if auth_type.lower() != 'bearer':
-                msg = 'Invalid authentication header type. Only Bearer tokens are currently supported..'
-                raise exceptions.AuthenticationFailed(msg)
-        except ValueError:
-            if len(auth_header.split()) == 1:
-                msg = 'Invalid token header. Credentials not provided.'
-                raise exceptions.AuthenticationFailed(msg)
-            elif len(auth_header.split()) > 2:
-                msg = 'Invalid token header. The token string cannot contain spaces.'
-                raise exceptions.AuthenticationFailed(msg)
+        auth_parts = auth_header.split()
+
+        if len(auth_parts) == 1:
+            msg = 'Invalid token header. Credentials not provided.'
+            raise exceptions.AuthenticationFailed(msg)
+        elif len(auth_parts) > 2:
+            msg = 'Invalid token header. The token string cannot contain spaces.'
+            raise exceptions.AuthenticationFailed(msg)
+
+        auth_type, auth_token = auth_parts[0], auth_parts[1]
+
+        if auth_type.lower() != 'bearer':
+            msg = 'Invalid authentication header type. Only Bearer tokens are currently supported..'
+            raise exceptions.AuthenticationFailed(msg)
 
         strategy = load_strategy(request=request)
 
