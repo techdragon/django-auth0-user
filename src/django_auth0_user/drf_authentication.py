@@ -31,7 +31,10 @@ class SocialAuthentication(BaseAuthentication):
 
         auth_parts = auth_header.split()
 
-        if len(auth_parts) == 1:
+        if len(auth_parts) == 0:
+            # No authentication header means we have nothing to work with.
+            return None
+        elif len(auth_parts) == 1:
             msg = 'Invalid token header. Credentials not provided.'
             raise exceptions.AuthenticationFailed(msg)
         elif len(auth_parts) > 2:
