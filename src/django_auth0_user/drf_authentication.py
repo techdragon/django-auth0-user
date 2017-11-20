@@ -5,6 +5,7 @@ from rest_framework.authentication import get_authorization_header
 from rest_framework import exceptions
 from rest_framework import HTTP_HEADER_ENCODING
 from social_core.exceptions import MissingBackend
+from social_core.exceptions import AuthForbidden
 from social_core.utils import requests
 from social_django.views import NAMESPACE
 from social_django.utils import load_backend
@@ -53,6 +54,8 @@ class SocialAuthentication(BaseAuthentication):
 
         try:
             user = backend.do_auth(access_token=auth_token)
+        except AuthForbidden as err:
+            raise exceptions.AuthenticationFailed(err)
         except requests.HTTPError as e:
             msg = e.response.text
             raise exceptions.AuthenticationFailed(msg)
