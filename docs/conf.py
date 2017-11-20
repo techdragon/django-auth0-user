@@ -26,7 +26,7 @@ project = u'Django Auth0 Auth'
 year = '2017'
 author = u'Samuel Bishop'
 copyright = '{0}, {1}'.format(year, author)
-version = release = u'0.9.0'
+version = release = u'0.10.0'
 
 pygments_style = 'trac'
 templates_path = ['.']
