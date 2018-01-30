@@ -59,16 +59,31 @@ class AbstractAuth0User(AbstractUser):
     @property
     def user_metadata(self):
         # TODO: Only do this is we are dealing with an OIDC compliant endpoint.
+        # TODO: Ensure any autocreated rule is based on the same metadata dict key so this doesnt break.
+
         if self.namespaced_user_metadata_dict_key:
-            return self.auth0_data['id_token_payload'][self.namespaced_user_metadata_dict_key]
-        return self.auth0_data['id_token_payload']['user_metadata']
+            if self.namespaced_user_metadata_dict_key in self.auth0_data['id_token_payload']:
+                return self.auth0_data['id_token_payload'][self.namespaced_user_metadata_dict_key]
+
+        if 'user_metadata' in self.auth0_data['id_token_payload']:
+            return self.auth0_data['id_token_payload']['user_metadata']
+
+        return None
+
 
     @property
     def app_metadata(self):
         # TODO: Only do this is we are dealing with an OIDC compliant endpoint.
+        # TODO: Ensure any autocreated rule is based on the same metadata dict key so this doesnt break.
+
         if self.namespaced_app_metadata_dict_key:
-            return self.auth0_data['id_token_payload'][self.namespaced_app_metadata_dict_key]
-        return self.auth0_data['id_token_payload']['app_metadata']
+            if self.namespaced_app_metadata_dict_key in self.auth0_data['id_token_payload']:
+                return self.auth0_data['id_token_payload'][self.namespaced_app_metadata_dict_key]
+
+        if 'app_metadata' in self.auth0_data['id_token_payload']:
+            return self.auth0_data['id_token_payload']['app_metadata']
+
+        return None
 
     class Meta:
         abstract = True
