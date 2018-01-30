@@ -13,7 +13,10 @@ log = logging.getLogger(__name__)
 
 # TODO: Handle both OpenID Compliant and non-OpenID compliant Auth0 clients!
 # ^ This may need some clever test setup to test against 2 sets of Auth0 client details.
+
 # TODO: Add an option to ensure that metadata is returned via rules, using the Management API to set them up for users.
+# https://auth0.com/docs/api/management/v2#!/Rules/get_rules
+
 # TODO: Use Django's checks framework/tools to warn about misconfiguration.
 #       e.g. OIDC Compliance + No Rule to include Metadata + Some future feature that depends on metadata.
 
