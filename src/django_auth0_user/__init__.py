@@ -1,3 +1,3 @@
-__version__ = "0.11.0"
+__version__ = "0.12.0"
 
 default_app_config = "django_auth0_user.apps.DjangoAuth0UserConfig"

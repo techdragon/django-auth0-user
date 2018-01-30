@@ -49,9 +49,9 @@ Overview
     :alt: PyPI Package latest release
     :target: https://pypi.python.org/pypi/django-auth0-user
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/techdragon/django-auth0-user/v0.11.0.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/techdragon/django-auth0-user/v0.12.0.svg
     :alt: Commits since latest release
-    :target: https://github.com/techdragon/django-auth0-user/compare/v0.11.0...master
+    :target: https://github.com/techdragon/django-auth0-user/compare/v0.12.0...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/django-auth0-user.svg
     :alt: PyPI Wheel
