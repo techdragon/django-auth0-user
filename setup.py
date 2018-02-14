@@ -24,7 +24,7 @@ def read(*names, **kwargs):
 
 setup(
     name='django-auth0-user',
-    version='0.12.0',
+    version='0.13.0',
     license='BSD license',
     description='Django Authentication and Authorisation using Auth0 and Python Social Auth',
     long_description='%s\n%s' % (
