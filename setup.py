@@ -67,7 +67,7 @@ setup(
     ],
     install_requires=[
         # eg: 'aspectlib==1.1.1', 'six>=1.7',
-        'social-auth-core>=1.4.0',
+        'social-auth-core[openidconnect]>=1.4.0',
         'social-auth-app-django>=1.2.0',
         'django>=1.10',
         "cached-property>=1.3.0",
