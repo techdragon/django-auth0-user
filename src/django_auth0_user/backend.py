@@ -1,12 +1,16 @@
 from social_core.backends.open_id_connect import OpenIdConnectAuth
-from django.conf import settings
-from social_core.exceptions import AuthCanceled, AuthTokenError, AuthFailed
-import base64, json, hmac, hashlib
-from calendar import timegm
-from datetime import datetime
 import logging
 from six.moves.urllib_parse import urlencode, unquote
+from django_auth0_user.settings import AUTH0_OIDC_ENDPOINT
 
+from jose import jwk, jwt
+from jose.utils import base64url_decode
+
+# from django.conf import settings
+# from social_core.exceptions import AuthCanceled, AuthTokenError, AuthFailed
+# import base64, json, hmac, hashlib
+# from calendar import timegm
+# from datetime import datetime
 
 log = logging.getLogger(__name__)
 
@@ -89,13 +93,14 @@ class Auth0OpenId(OpenIdConnectAuth):
     """Auth0 OpenID authentication backend"""
     name = 'auth0'
     # TODO: Implement a mechanism to automatically ensure that the callback urls are setup, using the Management API.
-    OIDC_ENDPOINT = getattr(settings, 'AUTH0_OIDC_URL')
-    ID_TOKEN_ISS = getattr(settings, 'AUTH0_OIDC_URL') + "/"
-    # Apparently under some circumstances we wont have the 'user_id' in the response during get_user_details.
-    # One option is to re-implement this function here in our backend for completeness and ease of documenting
-    # how this all works.
-    # The other is setting USERNAME_KEY = 'sub' instead of the more obvious USERNAME_KEY = 'user_id', were going
-    # with the other for now to keep things simple.
+
+    OIDC_ENDPOINT = AUTH0_OIDC_ENDPOINT
+    ID_TOKEN_ISS = AUTH0_OIDC_ENDPOINT + "/"
+    # Under some circumstances we wont have the 'user_id' in the response during get_user_details.
+    # One option is to re-implement this function here in our backend
+    # for completeness and ease of documenting how this all works...
+    # The other is setting USERNAME_KEY = 'sub' instead of the more obvious USERNAME_KEY = 'user_id',
+    # were going with the other for now to keep things simple.
     USERNAME_KEY = 'sub'
 
     def extra_data(self, user, uid, response, details=None, *args, **kwargs):

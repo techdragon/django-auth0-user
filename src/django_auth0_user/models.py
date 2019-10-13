@@ -7,7 +7,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from .validators import Auth0UserIdValidator
+from django_auth0_user.validators import Auth0UserIdValidator
+from django_auth0_user.settings import USER_ID_IS_DJANGO_USERNAME
+from django_auth0_user.settings import NAMESPACED_USER_METADATA_KEY
+from django_auth0_user.settings import NAMESPACED_APP_METADATA_KEY
 
 
 class AbstractAuth0User(AbstractUser):
@@ -16,9 +19,7 @@ class AbstractAuth0User(AbstractUser):
     """
 
     # In order to accept the "|" character in a Django Username we need to change the validator.
-    use_auth0_username = getattr(settings, 'SOCIAL_AUTH_AUTH0_USER_ID_IS_DJANGO_USERNAME', True)
-
-    if use_auth0_username:
+    if USER_ID_IS_DJANGO_USERNAME:
         username_validator = Auth0UserIdValidator()
         username_help_text = _('Required. 150 characters or fewer. Letters, digits and @/./+/-/_/| only.')
     else:
@@ -59,26 +60,25 @@ class AbstractAuth0User(AbstractUser):
     @property
     def user_metadata(self):
         # TODO: Only do this is we are dealing with an OIDC compliant endpoint.
-        # TODO: Ensure any autocreated rule is based on the same metadata dict key so this doesnt break.
+        # TODO: Ensure any auto-created rule is based on the same metadata dict key so this doesnt break.
 
-        if self.namespaced_user_metadata_dict_key:
-            if self.namespaced_user_metadata_dict_key in self.auth0_data['id_token_payload']:
-                return self.auth0_data['id_token_payload'][self.namespaced_user_metadata_dict_key]
+        if NAMESPACED_USER_METADATA_KEY is not None:
+            if NAMESPACED_USER_METADATA_KEY in self.auth0_data['id_token_payload']:
+                return self.auth0_data['id_token_payload'][NAMESPACED_USER_METADATA_KEY]
 
         if 'user_metadata' in self.auth0_data['id_token_payload']:
             return self.auth0_data['id_token_payload']['user_metadata']
 
         return None
 
-
     @property
     def app_metadata(self):
         # TODO: Only do this is we are dealing with an OIDC compliant endpoint.
-        # TODO: Ensure any autocreated rule is based on the same metadata dict key so this doesnt break.
+        # TODO: Ensure any auto-created rule is based on the same metadata dict key so this doesnt break.
 
-        if self.namespaced_app_metadata_dict_key:
-            if self.namespaced_app_metadata_dict_key in self.auth0_data['id_token_payload']:
-                return self.auth0_data['id_token_payload'][self.namespaced_app_metadata_dict_key]
+        if NAMESPACED_APP_METADATA_KEY is not None:
+            if NAMESPACED_APP_METADATA_KEY in self.auth0_data['id_token_payload']:
+                return self.auth0_data['id_token_payload'][NAMESPACED_APP_METADATA_KEY]
 
         if 'app_metadata' in self.auth0_data['id_token_payload']:
             return self.auth0_data['id_token_payload']['app_metadata']
