@@ -254,3 +254,33 @@ def pause_and_confirm_total_auth0_users(pause_duration, desired_total_users, aut
 
     confirm(desired_total_users)
 
+
+def get_auth_token_using_resource_owner_password_grant(username, password):
+    api_identifier = "test-api"
+    import requests
+    # import http.client
+    # conn = http.client.HTTPSConnection("django-db-auth0-user-dev-au.au.auth0.com", 443)
+
+    payload_data = {
+        "grant_type": "password",
+        "username": username,
+        "password": password,
+        "audience": api_identifier,
+        "scope": "openid read:sample",
+        "client_id": settings.AUTH0_MANAGEMENT_API_CLIENT_ID,
+        "client_secret": settings.AUTH0_MANAGEMENT_API_CLIENT_SECRET,
+    }
+    print(payload_data)
+    # payload = urlencode(payload_data)
+
+    response = requests.post('https://django-db-auth0-user-dev-au.au.auth0.com/oauth/token', payload_data)
+
+    return response
+    # headers = {'content-type': "application/x-www-form-urlencoded"}
+
+    # conn.request("POST", "oauth/token", payload, headers)
+
+    # res = conn.getresponse()
+    # data = res.read()
+    #
+    # print(data.decode("utf-8"))
