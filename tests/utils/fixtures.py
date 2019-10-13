@@ -154,3 +154,10 @@ def with_100_auth0_users():
     logger.info('Deleting all auth0 users.')
     delete_all_auth0_users_with_confirmation()
     logger.info('End of ten_users() fixture.')
+
+
+@pytest.fixture(scope='session')
+def auth0_rules():
+    setup_auth0_rules(dry_run=False)
+    yield
+    tear_down_auth0_rules(dry_run=False)
