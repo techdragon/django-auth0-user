@@ -84,7 +84,7 @@ setup(
         'pytest>=3.0.0',
         'pytest-django>=3.1.0',
         "selenium>=3.4.3",
-        "elizabeth==0.3.30",
+        # "elizabeth==0.3.30",
         'retryz>=0.1.9',
     ],
     extras_require={
