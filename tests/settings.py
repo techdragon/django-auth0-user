@@ -107,11 +107,19 @@ AUTH_USER_MODEL = 'test_app.Auth0User'
 LOGOUT_REDIRECT_URL = '/'
 
 env = environ.Env()
-env.read_env(environ.Path(__file__, is_file=True)('.env'))
+env_file_path = environ.Path(__file__, is_file=True)('.env')
+env.read_env(env_file=env_file_path)
 AUTH0_DOMAIN = env('AUTH0_USER_DOMAIN')
-AUTH0_OIDC_URL = 'https://{}'.format(AUTH0_DOMAIN)
+
+AUTH0_OIDC_ENDPOINT = 'https://{}'.format(AUTH0_DOMAIN)
+AUTH0_NAMESPACED_KEY_PREFIX = 'http://django-auth0-user.example.com'
 AUTH0_MANAGEMENT_API_CLIENT_ID = env('AUTH0_MANAGEMENT_API_CLIENT_ID')
 AUTH0_MANAGEMENT_API_CLIENT_SECRET = env('AUTH0_MANAGEMENT_API_CLIENT_SECRET')
+
+AUTH0_JAVASCRIPT_TEST_CLIENT_CLIENT_ID = env('AUTH0_JAVASCRIPT_TEST_CLIENT_CLIENT_ID')
+# AUTH0_JAVASCRIPT_TEST_CLIENT_CLIENT_SECRET = ''
+AUTH0_JAVASCRIPT_TEST_CLIENT_API_AUDIENCE = env('AUTH0_JAVASCRIPT_TEST_CLIENT_API_AUDIENCE')
+
 CLEAN_USERNAME_FUNCTION = 'django_auth0_user.clean.slugify'
 
 
