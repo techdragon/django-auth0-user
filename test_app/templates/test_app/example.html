@@ -1,7 +1,14 @@
 <html>
     <body>
         {% if user.is_authenticated %}
-            <p >Current user: <span id="user-email">{{ user.email }}</span></p>
+            <h4>User Info</h4>
+            <p>Current user: <span id="user-email">{{ user.email }}</span></p>
+            <h5>User Data</h5>
+            <pre>{{ user.auth0_data | pprint }}</pre>
+            <h6>User Metadata</h6>
+            <pre id="user-metadata">{{ user.user_metadata | pprint }}</pre>
+            <h6>App Metadata</h6>
+            <pre id="app-metadata">{{ user.app_metadata | pprint }}</pre>
             <p>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
