@@ -4,7 +4,8 @@ from django.contrib.admin import AdminSite
 from django.utils.http import is_safe_url
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.shortcuts import resolve_url
-from .utils import monkeypatch_method
+from django_auth0_user.util import monkeypatch_method
+
 try:
     from urllib.parse import urlencode
 except ImportError:

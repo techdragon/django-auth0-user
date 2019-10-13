@@ -9,6 +9,7 @@ from tests.utils.fixtures import one_auth0_user
 
 
 # TODO: Convert this into a non-class based test so we can drive it more flexibly via PyTest.
+@pytest.mark.skip(reason="this test needs more work to modernize it.")
 @pytest.mark.usefixtures('one_auth0_user')
 class WebSiteAuthFlow(SeleniumTestCase):
     """
@@ -26,6 +27,7 @@ class WebSiteAuthFlow(SeleniumTestCase):
     #     create_auth0_user(overrides={'email': 'user1@example.com', 'password': 'known_password'})
     #     create_auth0_user(overrides={'email': 'user2@example.com', 'password': 'known_password'})
 
+    @pytest.mark.skip(reason="this test needs more work to modernize it.")
     def test_regular_user_login(self):
         # """Self.user is
         user_email = self.user['email']

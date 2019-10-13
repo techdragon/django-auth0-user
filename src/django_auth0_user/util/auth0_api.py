@@ -1,11 +1,13 @@
 import math
+from copy import deepcopy
 
 from auth0.v3.authentication import GetToken
 from auth0.v3.management import Auth0
 from django.conf import settings
 from cached_property import threaded_cached_property_with_ttl
 import logging
-
+from django_auth0_user.settings import AUTH0_RULE_CONFIGS
+from django_auth0_user.settings import AUTH0_RULES
 
 logger = logging.getLogger(__name__)
 
@@ -137,4 +139,89 @@ def get_users_from_auth0(auth0_conn: Auth0):
 
 
 # TODO: Add a function to get an Auth0 client's details from the Management API
+
+
 # TODO: Add a function that returns true/false based on if the Auth0 client is configured to be OIDC conformant.
+# TODO: Work out the best way to use this without incurring major overhead or security risks.
+#  One time deployment check command?
+def oidc_conformant(client_id):
+    auth0 = get_auth0()
+    clients = auth0.clients.all(fields=['name', 'client_id', 'oidc_conformant'])
+    for client in clients:
+        if client['client_id'] == client_id:
+            return client['oidc_conformant']
+
+
+# TODO: Make this part of the setup / deployment somehow ... >_>
+# Set Auth0 Rule Configs:
+def set_auth0_rule_config_values():
+    auth0 = get_auth0()
+    for config_key, config_item in AUTH0_RULE_CONFIGS.items():
+        result = auth0.rules_configs.set(config_key, config_item)
+        logger.info(f"Auth0 Set Rule Config Key Result: result={result}")
+
+
+# TODO: Make this part of the setup / deployment somehow ... >_>
+# Auth0 Rules:
+# TODO: If stage doesnt match, the rule will need to be deleted & then added again.
+
+# TODO: It doesnt seem possible to set the stage directly... So Should I ignore it?
+def setup_auth0_rules(dry_run=True):
+    auth0 = get_auth0()
+
+    current_rule_list = auth0.rules.all()
+    current_rules = {}
+    for rule in current_rule_list:
+        rule_name = rule['name']
+        _rule = deepcopy(rule)
+        del _rule['name']
+        current_rules[rule['name']] = {**_rule}
+    current_rule_names = set(current_rules.keys())
+
+    settings_rules = AUTH0_RULES
+    settings_rule_names = set(settings_rules.keys())
+
+    # If the rule isn't one we have defined, ignore it.
+    # rules_to_ignore = current_rule_names - settings_rule_names
+    # If the rule is one we defined and it doesnt exist yet, we need to create it.
+    rules_to_create = settings_rule_names - current_rule_names
+    # If the rule is defined and already exists, we need to check it is configured correctly.
+    rules_to_check = current_rule_names & settings_rule_names
+    rules_to_update = set()
+
+    for rule_name in rules_to_create:
+        if not dry_run:
+            auth0.rules.create({
+                'name': rule_name,
+                **settings_rules[rule_name]
+            })
+
+    for rule_name in rules_to_check:
+        if settings_rules[rule_name]['enabled'] == current_rules[rule_name]['enabled']:
+            if settings_rules[rule_name]['order'] == current_rules[rule_name]['order']:
+                if settings_rules[rule_name]['script'] == current_rules[rule_name]['script']:
+                    continue
+        rules_to_update.add(rule_name)
+
+    # TODO: update rules here.
+    for rule_name in rules_to_update:
+        if not dry_run:
+            auth0.rules.update(rule_name, {
+                'name': rule_name,
+                **settings_rules[rule_name]
+            })
+
+
+def tear_down_auth0_rules(dry_run=True):
+    auth0 = get_auth0()
+    # ----------------------------------------
+    settings_rules = AUTH0_RULES
+    settings_rule_names = set(settings_rules.keys())
+    # ----------------------------------------
+    current_rule_mapping = {}
+    for rule in auth0.rules.all():
+        current_rule_mapping[rule['name']] = rule['id']
+    for rule_name in settings_rule_names:
+        rule_id = current_rule_mapping[rule_name]
+        if not dry_run:
+            auth0.rules.delete(rule_id)
