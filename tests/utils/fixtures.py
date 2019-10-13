@@ -2,9 +2,11 @@ from tests.utils.auth0 import delete_all_auth0_users as delete_all_auth0_users_v
 from tests.utils.auth0 import create_auth0_test_users
 from tests.utils.auth0 import create_and_confirm_auth0_test_users
 from tests.utils.auth0 import delete_all_auth0_users_with_confirmation
-from tests.utils.auth0 import create_multiple_auth0_users_and_confirm
+from tests.utils.auth0 import create_auth0_users_and_confirm
 from tests.utils.auth0 import pause_and_confirm_total_auth0_users
 from tests.utils.django import delete_all_django_users
+from django_auth0_user.util.auth0_api import setup_auth0_rules
+from django_auth0_user.util.auth0_api import tear_down_auth0_rules
 from test_app.models import Auth0User
 import pytest
 import logging
@@ -29,7 +31,7 @@ def one_auth0_user(request):
     :param request:
     :return:
     """
-    users = create_multiple_auth0_users_and_confirm(1)
+    users = create_auth0_users_and_confirm(1)
     request.cls.user = users[0]
 
 
@@ -72,7 +74,7 @@ def one_user():
     delete_all_auth0_users_with_confirmation()
     logger.info('Deleting Django User objects.')
     Auth0User.objects.all().delete()
-    create_multiple_auth0_users_and_confirm(number_of_users)
+    create_auth0_users_and_confirm(number_of_users)
     pause_and_confirm_total_auth0_users(DELAY, number_of_users)
     yield
     logger.info('Deleting Django User objects.')
@@ -90,7 +92,7 @@ def five_users():
     delete_all_auth0_users_with_confirmation()
     logger.info('Deleting Django User objects.')
     Auth0User.objects.all().delete()
-    create_multiple_auth0_users_and_confirm(number_of_users)
+    create_auth0_users_and_confirm(number_of_users)
     pause_and_confirm_total_auth0_users(DELAY, number_of_users)
     yield
     logger.info('Deleting Django User objects.')
@@ -108,7 +110,7 @@ def ten_users():
     delete_all_auth0_users_with_confirmation()
     logger.info('Deleting Django User objects.')
     Auth0User.objects.all().delete()
-    create_multiple_auth0_users_and_confirm(number_of_users)
+    create_auth0_users_and_confirm(number_of_users)
     pause_and_confirm_total_auth0_users(DELAY, number_of_users)
     yield
     logger.info('Deleting Django User objects.')
@@ -126,7 +128,7 @@ def with_33_auth0_users():
     delete_all_auth0_users_with_confirmation()
     logger.info('Deleting Django User objects.')
     Auth0User.objects.all().delete()
-    create_multiple_auth0_users_and_confirm(number_of_users)
+    create_auth0_users_and_confirm(number_of_users)
     pause_and_confirm_total_auth0_users(DELAY, number_of_users)
     yield
     logger.info('Deleting Django User objects.')
@@ -144,7 +146,7 @@ def with_100_auth0_users():
     delete_all_auth0_users_with_confirmation()
     logger.info('Deleting Django User objects.')
     Auth0User.objects.all().delete()
-    create_multiple_auth0_users_and_confirm(number_of_users)
+    create_auth0_users_and_confirm(number_of_users)
     pause_and_confirm_total_auth0_users(DELAY, number_of_users)
     yield
     logger.info('Deleting Django User objects.')

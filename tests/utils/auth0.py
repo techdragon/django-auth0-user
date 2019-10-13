@@ -5,15 +5,16 @@ from time import sleep
 from auth0.v3.exceptions import Auth0Error
 from auth0.v3.management import Auth0
 from django.conf import settings
-from elizabeth import Personal
+from mimesis import Person
 from retryz import retry
+from urllib.parse import urlencode
 
-from django_auth0_user.auth0.api import AUTH0_TOKEN_CACHE, get_auth0, get_users_from_auth0, get_auth0_user
+from django_auth0_user.util.auth0_api import AUTH0_TOKEN_CACHE, get_auth0, get_users_from_auth0, get_auth0_user
 
 logger = logging.getLogger(__name__)
 
 
-person = Personal('en')
+person = Person('en')
 
 
 @retry(wait=5, timeout=300, on_return=False)
@@ -29,12 +30,11 @@ def create_auth0_test_users(number_of_users, overrides=None, auth0=None):
         auth0 = get_auth0()
     auth0_users = []
     for i in range(number_of_users):
-        gender = random.choice(['male', 'female'])
         test_user_details = {
             "connection": "Username-Password-Authentication",
             # "username": person.username(gender=gender),
             "password": person.password(length=8),
-            "email": person.email(gender=gender, domains=['@example.com', ]),
+            "email": person.email(domains=['@example.com', ]),
             "email_verified": False,
             "verify_email": False,
             # "phone_number": person.telephone(mask="+############"),
@@ -60,12 +60,11 @@ def create_and_confirm_auth0_test_users(desired_total, auth0=None):
     difference = desired_total - current_user_total
     if difference > 0:
         for i in range(difference):
-            gender = random.choice(['male', 'female'])
             test_user_details = {
                 "connection": "Username-Password-Authentication",
                 # "username": person.username(gender=gender),
                 "password": person.password(length=8),
-                "email": person.email(gender=gender, domains=['@example.com', ]),
+                "email": person.email(domains=['@example.com', ]),
                 "email_verified": False,
                 "verify_email": False,
                 # "phone_number": person.telephone(mask="+############"),
@@ -83,12 +82,11 @@ def create_and_confirm_auth0_test_users(desired_total, auth0=None):
 def create_auth0_user(auth0=None, overrides=None):
     if auth0 is None:
         auth0 = get_auth0()
-    gender = random.choice(['male', 'female'])
     test_user_details = {
         "connection": "Username-Password-Authentication",
         # "username": person.username(gender=gender),
         "password": person.password(length=8),
-        "email": person.email(gender=gender, domains=['@example.com', ]),
+        "email": person.email(domains=['@example.com', ]),
         "email_verified": False,
         "verify_email": False,
         # "phone_number": person.telephone(mask="+############"),
@@ -158,12 +156,11 @@ def create_auth0_user_and_confirm(auth0=None):
     if auth0 is None:
         auth0 = get_auth0()
 
-    gender = random.choice(['male', 'female'])
     test_user_details = {
         "connection": "Username-Password-Authentication",
         # "username": person.username(gender=gender),
         "password": person.password(length=8),
-        "email": person.email(gender=gender, domains=['@example.com', ]),
+        "email": person.email(domains=['@example.com', ]),
         "email_verified": False,
         "verify_email": False,
         # "phone_number": person.telephone(mask="+############"),
@@ -172,7 +169,13 @@ def create_auth0_user_and_confirm(auth0=None):
         "app_metadata": {},
     }
     user = auth0.users.create(body=test_user_details)
-    logger.info("generated a new auth0 user: {}".format(user))
+    user_details_to_log = {
+        _k:_v for _k, _v in test_user_details.items() if _k in [
+            'password', 'email', 'user_metadata', 'app_metadata'
+        ]
+    }
+    logger.info(f"Creating Auth0 User With: => {user_details_to_log}")
+    logger.info(f"Generated New Auth0 User: => {user}")
 
     @retry(wait=5, timeout=300, on_return=False)
     def confirm(target_user_id):
@@ -187,25 +190,28 @@ def create_auth0_user_and_confirm(auth0=None):
     confirm(user['user_id'])
 
 
-def create_multiple_auth0_users_and_confirm(number_of_users_to_create, auth0=None):
+def create_auth0_users_and_confirm(number_of_users_to_create, auth0=None, user_metadata=None, app_metadata=None):
     logger.info("Attempting to create {} auth0 users, with confirmation.".format(number_of_users_to_create))
     if auth0 is None:
         auth0 = get_auth0()
+    if user_metadata is None:
+        user_metadata = {}
+    if app_metadata is None:
+        app_metadata = {}
 
     user_list = []
     for i in range(number_of_users_to_create):
-        gender = random.choice(['male', 'female'])
         test_user_details = {
             "connection": "Username-Password-Authentication",
             # "username": person.username(gender=gender),
             "password": person.password(length=8),
-            "email": person.email(gender=gender, domains=['@example.com', ]),
+            "email": person.email(domains=['@example.com', ]),
             "email_verified": False,
             "verify_email": False,
             # "phone_number": person.telephone(mask="+############"),
             # "phone_verified": False,
-            "user_metadata": {},
-            "app_metadata": {},
+            "user_metadata": user_metadata,
+            "app_metadata": app_metadata,
         }
         user = auth0.users.create(body=test_user_details)
         logger.info("generated a new auth0 user: {}".format(user))
