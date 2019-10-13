@@ -65,3 +65,4 @@ docs/_build
 /test.db
 geckodriver.log
 ghostdriver.log
+.venv
