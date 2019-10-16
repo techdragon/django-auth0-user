@@ -33,6 +33,7 @@ httpretty = "^0.9.6"
 pytest-server-fixtures = "^1.7.0"
 pytest-selenium = "^1.17.0"
 unittest2 = "^1.1.0"
+django-cors-headers = "^3.1.1"
 
 [tool.poetry.extras]
 drf= ["djangorestframework", "djangorestframework-jwt", "pyjwt"]

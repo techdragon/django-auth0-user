@@ -74,7 +74,7 @@ class FastAuth0Authentication(JSONWebTokenAuthentication):
         user = self.authenticate_credentials(payload)
 
         if not user:
-            return  # Fallthru to next auth system
+            return  # Fall-Through to next auth system
 
         return user, jwt_value
 
@@ -90,6 +90,7 @@ class FullAuth0Authentication(BaseAuthentication):
 
         Authorization: Bearer g87ewgbgg78wegpngxgfoawgbo78aegnafxngfe
     """
+    # TODO: This should probably be configured via a setting key.
     www_authenticate_realm = 'api'
 
     def authenticate(self, request):

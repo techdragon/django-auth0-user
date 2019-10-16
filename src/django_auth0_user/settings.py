@@ -1,6 +1,15 @@
 from django.conf import settings
 
 
+if getattr(settings, 'AUTH0_DOMAIN', None) is not None:
+    AUTH0_DOMAIN = settings.AUTH0_DOMAIN
+elif getattr(settings, 'SOCIAL_AUTH_AUTH0_DOMAIN', None) is not None:
+    AUTH0_DOMAIN = settings.SOCIAL_AUTH_AUTH0_DOMAIN
+else:
+    AUTH0_DOMAIN = None
+
+AUTH0_API_URL = 'https://' + AUTH0_DOMAIN + '/api/v2/'
+
 if getattr(settings, 'AUTH0_OIDC_ENDPOINT', None) is not None:
     AUTH0_OIDC_ENDPOINT = settings.AUTH0_OIDC_ENDPOINT
 elif getattr(settings, 'SOCIAL_AUTH_AUTH0_OIDC_ENDPOINT', None) is not None:
@@ -36,18 +45,29 @@ else:
 
 
 AUTH0_RULE_CONFIGS = {
-    'DJANGO_AUTH0_USER_OIDC_NAMESPACE_PREFIX': NAMESPACED_KEY_PREFIX
+    'DJANGO_AUTH0_USER_OIDC_NAMESPACE_PREFIX': NAMESPACED_KEY_PREFIX,
+    'DJANGO_AUTH0_USER_NAMESPACED_USER_METADATA_KEY': NAMESPACED_USER_METADATA_KEY,
+    'DJANGO_AUTH0_USER_NAMESPACED_APP_METADATA_KEY': NAMESPACED_APP_METADATA_KEY,
 }
 
 
+# TODO: Decide if this should keep living here or belongs in test settings...
 # Use the Auth0 Rule Configuration object to set the namespace prefix dynamically.
 EXAMPLE_METADATA_RULE_FUNCTION = """function (user, context, callback) {
     const NAMESPACE_PREFIX = configuration.DJANGO_AUTH0_USER_OIDC_NAMESPACE_PREFIX;
+    const NAMESPACED_USER_METADATA_KEY = configuration.DJANGO_AUTH0_USER_NAMESPACED_USER_METADATA_KEY;
+    const NAMESPACED_APP_METADATA_KEY = configuration.DJANGO_AUTH0_USER_NAMESPACED_APP_METADATA_KEY;
     if (context.idToken && user.user_metadata) {
-        context.idToken[NAMESPACE_PREFIX + 'user_metadata'] = user.user_metadata;
+        context.idToken[NAMESPACED_USER_METADATA_KEY] = user.user_metadata;
     }
     if (context.idToken && user.app_metadata) {
-        context.idToken[NAMESPACE_PREFIX + 'app_metadata'] = user.app_metadata;
+        context.idToken[NAMESPACED_APP_METADATA_KEY] = user.app_metadata;
+    }
+    if (context.accessToken && user.user_metadata) {
+        context.accessToken[NAMESPACED_USER_METADATA_KEY] = user.user_metadata;
+    }
+    if (context.accessToken && user.app_metadata) {
+        context.accessToken[NAMESPACED_APP_METADATA_KEY] = user.app_metadata;
     }
     callback(null, user, context);
 }

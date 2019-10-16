@@ -7,10 +7,19 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from jwt import decode as jwt_decode
+from jwt import DecodeError
+
 from django_auth0_user.validators import Auth0UserIdValidator
 from django_auth0_user.settings import USER_ID_IS_DJANGO_USERNAME
 from django_auth0_user.settings import NAMESPACED_USER_METADATA_KEY
 from django_auth0_user.settings import NAMESPACED_APP_METADATA_KEY
+
+
+# TODO: The default social_django model uses a foreign key from the social account model
+#   to a django user model instance in order to allow multiple social logins for a single
+#   django user, however since this is a function that Auth0 abstracts away for us,
+#   we can bind the models more tightly and use a OneToOneField. Look into this option further.
 
 
 class AbstractAuth0User(AbstractUser):
@@ -49,6 +58,39 @@ class AbstractAuth0User(AbstractUser):
             raise NotImplementedError(
                 "More than one social auth model instance is associated with this django user model instance"
             )
+
+    @property
+    def id_token_payload(self):
+        if self.auth0_data['id_token'] is not None:
+            try:
+                # TODO: Decide how I want to handle verifying the tokens.
+                return jwt_decode(self.auth0_data['id_token'], verify=False)
+            except DecodeError:
+                return None
+        else:
+            return None
+
+    @property
+    def access_token_payload(self):
+        if self.auth0_data['access_token'] is not None:
+            try:
+                # TODO: Decide how I want to handle verifying the tokens.
+                return jwt_decode(self.auth0_data['access_token'], verify=False)
+            except DecodeError:
+                return None
+        else:
+            return None
+
+    @property
+    def refresh_token_payload(self):
+        if self.auth0_data['refresh_token'] is not None:
+            try:
+                # TODO: Decide how I want to handle verifying the tokens.
+                return jwt_decode(self.auth0_data['refresh_token'], verify=False)
+            except DecodeError:
+                return None
+        else:
+            return None
 
     # -------------------------------------
     # Convenience / Quick Access Properties

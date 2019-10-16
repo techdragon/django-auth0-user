@@ -126,6 +126,17 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "dev"
+description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+name = "django-cors-headers"
+optional = false
+python-versions = ">=3.5"
+version = "3.1.1"
+
+[package.dependencies]
+Django = ">=1.11"
+
+[[package]]
+category = "dev"
 description = "A configurable set of panels that display various debug information about the current request/response."
 name = "django-debug-toolbar"
 optional = false
@@ -577,6 +588,7 @@ pycryptodome = ["pycryptodome (>=3.3.1,<4.0.0)", "pyasn1"]
 reference = "e31416ae2e3c473e551698dcde80bb1977da90bd"
 type = "git"
 url = "https://github.com/mpdavis/python-jose.git"
+
 [[package]]
 category = "main"
 description = "OpenID support for modern servers and consumers."
@@ -811,7 +823,7 @@ testing = ["pathlib2", "contextlib2", "unittest2"]
 drf = ["djangorestframework", "djangorestframework-jwt", "pyjwt"]
 
 [metadata]
-content-hash = "3ac7b171bacfe9a6b30e4ead33647e6a13dbe41e3e8994ef07daf3f17e1c11dc"
+content-hash = "807f77f04aab56d7ea1d8ee3ab318300ff5320ea8e82bb3dcc3e7e1ca873704b"
 python-versions = "^3.6"
 
 [metadata.hashes]
@@ -828,6 +840,7 @@ contextlib2 = ["01f490098c18b19d2bd5bb5dc445b2054d2fa97f09a4280ba2c5f3c394c8162e
 decorator = ["86156361c50488b84a3f148056ea716ca587df2f0de1d34750d35c21312725de", "f069f3a01830ca754ba5258fde2278454a0b5b79e0d7f5c13b3b97e57d4acff6"]
 defusedxml = ["6687150770438374ab581bb7a1b327a847dd9c5749e396102de3fad4e8a3ef93", "f684034d135af4c6cbb949b8a4d2ed61634515257a67299e5f940fbaa34377f5"]
 django = ["4025317ca01f75fc79250ff7262a06d8ba97cd4f82e93394b2a0a6a4a925caeb", "a8ca1033acac9f33995eb2209a6bf18a4681c3e5269a878e9a7e0b7384ed1ca3"]
+django-cors-headers = ["5762ec9c2d59f38c76828dc1d4308baca4bc0d3e1d6f217683e7a24a1c4611a3", "ee02f4b699e9b6645602a46d0adb430ee940a1bf8df64f77e516f8d7711fee60"]
 django-debug-toolbar = ["17c53cd6bf4e7d69902aedf9a1d26c5d3b7369b54c5718744704f27b5a72f35d", "9a23ada2e43cd989195db3c18710b5d7451134a0d48127ab64c1d2ad81700342"]
 django-environ = ["6c9d87660142608f63ec7d5ce5564c49b603ea8ff25da595fd6098f6dc82afde", "c57b3c11ec1f319d9474e3e5a79134f40174b17c7cc024bbb2fad84646b120c4"]
 django-extensions = ["526d84b16ee180e45e2305f19d3e01ff3f9f513133839c0b4478b97310ade82a", "a78105d5a5e1c3ef44fbe41bc5a19102bda64dbad05515bf791ac6d5d2499ebf"]

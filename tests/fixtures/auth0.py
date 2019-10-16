@@ -1,23 +1,22 @@
-from tests.utils.auth0 import delete_all_auth0_users as delete_all_auth0_users_via_api
-from tests.utils.auth0 import create_auth0_test_users
-from tests.utils.auth0 import create_and_confirm_auth0_test_users
-from tests.utils.auth0 import delete_all_auth0_users_with_confirmation
-from tests.utils.auth0 import create_auth0_users_and_confirm
-from tests.utils.auth0 import pause_and_confirm_total_auth0_users
-from tests.utils.django import delete_all_django_users
-from django_auth0_user.util.auth0_api import setup_auth0_rules
-from django_auth0_user.util.auth0_api import tear_down_auth0_rules
-from test_app.models import Auth0User
-import pytest
 import logging
+
+import pytest
+
+from test_app.models import Auth0User
+from tests.utils.auth0 import (
+    create_auth0_users_and_confirm,
+    delete_all_auth0_users as delete_all_auth0_users_via_api,
+    delete_all_auth0_users_with_confirmation,
+    pause_and_confirm_total_auth0_users,
+)
 
 
 logger = logging.getLogger(__name__)
 
-
 DELAY = 15
 
 
+# TODO: Refactor/Remove these fixtures as I'm not using testing things the same way anymore.
 @pytest.fixture(scope="class")
 def one_auth0_user(request):
     """
@@ -154,10 +153,3 @@ def with_100_auth0_users():
     logger.info('Deleting all auth0 users.')
     delete_all_auth0_users_with_confirmation()
     logger.info('End of ten_users() fixture.')
-
-
-@pytest.fixture(scope='session')
-def auth0_rules():
-    setup_auth0_rules(dry_run=False)
-    yield
-    tear_down_auth0_rules(dry_run=False)

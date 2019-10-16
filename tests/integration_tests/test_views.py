@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import pytest
 # noinspection PyUnresolvedReferences,PyPackageRequirements
-from tests.utils.fixtures import one_auth0_user
+from tests.fixtures.auth0 import one_auth0_user
 
 
 # TODO: Convert this into a non-class based test so we can drive it more flexibly via PyTest.

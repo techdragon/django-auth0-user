@@ -6,19 +6,22 @@ from auth0.v3.management import Auth0
 from django.conf import settings
 from cached_property import threaded_cached_property_with_ttl
 import logging
+
 from django_auth0_user.settings import AUTH0_RULE_CONFIGS
 from django_auth0_user.settings import AUTH0_RULES
+from django_auth0_user.settings import AUTH0_DOMAIN
+from django_auth0_user.settings import AUTH0_API_URL
 
+
+# TODO: The logging here should be more consistent.
 logger = logging.getLogger(__name__)
 
 
 AUTH0_MANAGEMENT_API_TOKEN_DEFAULT_EXPIRY = 86400  # 24 hours = 86400 seconds
-
 AUTH0_CACHED_TOKEN_TTL = 3600  # 1 hour = 3600 seconds
+# AUTH0_DOMAIN = getattr(settings, 'AUTH0_DOMAIN')
 
-AUTH0_DOMAIN = getattr(settings, 'AUTH0_DOMAIN')
-
-AUTH0_API_URL = 'https://' + AUTH0_DOMAIN + '/api/v2/'
+# AUTH0_API_URL = 'https://' + AUTH0_DOMAIN + '/api/v2/'
 # domain = AUTH0_DOMAIN
 
 # Non Interactive API Client ID
@@ -30,11 +33,6 @@ AUTH0_MANAGEMENT_API_CLIENT_SECRET = getattr(settings, 'AUTH0_MANAGEMENT_API_CLI
 # non_interactive_client_secret = 'examplesecret'
 
 # TODO: handle empty domain, client ID and client secret, in a user friendly fashion.
-
-# get_token = GetToken(domain)
-# token = get_token.client_credentials(non_interactive_client_id,
-# non_interactive_client_secret, 'https://myaccount.auth0.com/api/v2/')
-# mgmt_api_token = token['access_token']
 
 
 class TokenCache(object):
@@ -155,18 +153,42 @@ def oidc_conformant(client_id):
 # TODO: Make this part of the setup / deployment somehow ... >_>
 # Set Auth0 Rule Configs:
 def set_auth0_rule_config_values():
+    """
+    Add Auth0 Rule Config Data that we have defined.
+    :return:
+    """
     auth0 = get_auth0()
     for config_key, config_item in AUTH0_RULE_CONFIGS.items():
         result = auth0.rules_configs.set(config_key, config_item)
         logger.info(f"Auth0 Set Rule Config Key Result: result={result}")
 
 
-# TODO: Make this part of the setup / deployment somehow ... >_>
-# Auth0 Rules:
-# TODO: If stage doesnt match, the rule will need to be deleted & then added again.
+def remove_auth0_rule_config_values():
+    """
+    Remove any Auth0 Rule Config data that we have setup.
 
+    :return: None
+    """
+    auth0 = get_auth0()
+    for config_key, config_item in AUTH0_RULE_CONFIGS.items():
+        auth0.rules_configs.unset(config_key)
+
+
+# Auth0 Rules:
+# TODO: Document and put in some code to help Limit the required permissions when using the management API.
+#  This is super important for being able to run a CI suite against this!
+#  Even if stored correctly the API keys placed in a CI suite are
+#  inherently vulnerable so should be limited as much as possible.
+
+# TODO: If stage doesnt match, the rule will need to be deleted & then added again.
 # TODO: It doesnt seem possible to set the stage directly... So Should I ignore it?
 def setup_auth0_rules(dry_run=True):
+    """
+    Setup Auth0 Rules using the management API.
+
+    :param dry_run:
+    :return:
+    """
     auth0 = get_auth0()
 
     current_rule_list = auth0.rules.all()

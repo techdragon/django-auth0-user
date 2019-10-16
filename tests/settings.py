@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     'social_django',
     "django_auth0_user",
+    'corsheaders',
     "tests",
     'test_app',
     'rest_framework',
@@ -87,12 +88,15 @@ MIDDLEWARE_TUPLE = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 if django.VERSION >= (1, 10):
     MIDDLEWARE = MIDDLEWARE_TUPLE
@@ -171,6 +175,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'django_auth0_user.rest_framework.authentication.FastAuth0Authentication',
+        'django_auth0_user.rest_framework.authentication.FullAuth0Authentication',
         'django_auth0_user.drf_authentication.SocialAuthentication',
     ),
 }
