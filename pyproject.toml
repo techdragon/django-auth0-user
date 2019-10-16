@@ -1,8 +1,11 @@
 [tool.poetry]
 name = "django-auth0-user"
-version = "0.14.0"
+version = "0.15.0"
+license = "BSD-2-Clause"
+repository = "https://github.com/techdragon/django-auth0-user"
 description = "Django Authentication and Authorisation using Auth0 and Python Social Auth"
-authors = ["Samuel Bishop <sam@psyx.co>"]
+keywords = ["Auth0", "Django", "Python Social Auth", "Django Rest Framework"]
+authors = ["Samuel Bishop <sam@techdragon.io>"]
 packages = [
     { include = "django_auth0_user", from = "src" },
 ]
@@ -12,7 +15,6 @@ python = "^3.6"
 social-auth-core = {version = "^3.2.0", extras = ["openidconnect"]}
 social-auth-app-django = "^3.1.0"
 cached-property = "^1.5.1"
-python-jose = {git = "https://github.com/mpdavis/python-jose.git"}
 djangorestframework = {version = "^3.10.3", optional = true}
 djangorestframework-jwt = {version = "^1.11.0", optional = true}
 pyjwt = {version = "^1.7.1", optional = true}
@@ -34,6 +36,7 @@ pytest-server-fixtures = "^1.7.0"
 pytest-selenium = "^1.17.0"
 unittest2 = "^1.1.0"
 django-cors-headers = "^3.1.1"
+python-jose = {git = "https://github.com/techdragon/python-jose.git", branch = "fixes-for-django-auth0-user"}
 
 [tool.poetry.extras]
 drf= ["djangorestframework", "djangorestframework-jwt", "pyjwt"]
