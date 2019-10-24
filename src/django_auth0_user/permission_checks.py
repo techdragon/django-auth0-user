@@ -56,9 +56,9 @@ def auth0_user_is_active(auth0_user):
 
 AUTH0_USER_IS_SUPERUSER_CHECK_FUNCTION = getattr(settings, 'AUTH0_USER_IS_SUPERUSER_CHECK_FUNCTION',
                                                  'django_auth0_user.permission_checks.auth0_user_is_superuser')
-supervisor_module_name, supervisor_func_name = AUTH0_USER_IS_SUPERUSER_CHECK_FUNCTION.rsplit('.', 1)
-supervisor_module = importlib.import_module(supervisor_module_name)
-IS_SUPERUSER = getattr(supervisor_module, supervisor_func_name)
+superuser_module_name, supervisor_func_name = AUTH0_USER_IS_SUPERUSER_CHECK_FUNCTION.rsplit('.', 1)
+superuser_module = importlib.import_module(superuser_module_name)
+IS_SUPERUSER = getattr(superuser_module, supervisor_func_name)
 
 
 AUTH0_USER_IS_STAFF_CHECK_FUNCTION = getattr(settings, 'AUTH0_USER_IS_STAFF_CHECK_FUNCTION',

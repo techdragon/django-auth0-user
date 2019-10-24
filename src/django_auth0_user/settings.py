@@ -44,11 +44,17 @@ else:
     NAMESPACED_APP_METADATA_KEY = NAMESPACED_KEY_PREFIX + '/app_metadata'
 
 
-AUTH0_RULE_CONFIGS = {
-    'DJANGO_AUTH0_USER_OIDC_NAMESPACE_PREFIX': NAMESPACED_KEY_PREFIX,
-    'DJANGO_AUTH0_USER_NAMESPACED_USER_METADATA_KEY': NAMESPACED_USER_METADATA_KEY,
-    'DJANGO_AUTH0_USER_NAMESPACED_APP_METADATA_KEY': NAMESPACED_APP_METADATA_KEY,
-}
+DEFAULT_AUTH0_RULE_CONFIGS = {
+        'DJANGO_AUTH0_USER_OIDC_NAMESPACE_PREFIX': NAMESPACED_KEY_PREFIX,
+        'DJANGO_AUTH0_USER_NAMESPACED_USER_METADATA_KEY': NAMESPACED_USER_METADATA_KEY,
+        'DJANGO_AUTH0_USER_NAMESPACED_APP_METADATA_KEY': NAMESPACED_APP_METADATA_KEY,
+    }
+if getattr(settings, 'AUTH0_RULE_CONFIGS', None) is not None:
+    AUTH0_RULE_CONFIGS = settings.AUTH0_RULE_CONFIGS
+elif getattr(settings, 'SOCIAL_AUTH_AUTH0_RULE_CONFIGS', None) is not None:
+    AUTH0_RULE_CONFIGS = settings.SOCIAL_AUTH_AUTH0_RULE_CONFIGS
+else:
+    AUTH0_RULE_CONFIGS = DEFAULT_AUTH0_RULE_CONFIGS
 
 
 # TODO: Decide if this should keep living here or belongs in test settings...
@@ -74,11 +80,17 @@ EXAMPLE_METADATA_RULE_FUNCTION = """function (user, context, callback) {
 """
 
 
-AUTH0_RULES = {
-    "Django-Auth0-User-ExampleMetadataRule": {
-        "script": EXAMPLE_METADATA_RULE_FUNCTION,
-        "stage": "login_success",
-        "enabled": True,
-        "order": 1,
+DEFAULT_AUTH0_RULES = {
+        "Django-Auth0-User-ExampleMetadataRule": {
+            "script": EXAMPLE_METADATA_RULE_FUNCTION,
+            "stage": "login_success",
+            "enabled": True,
+            "order": 1,
+        }
     }
-}
+if getattr(settings, 'AUTH0_RULES', None) is not None:
+    AUTH0_RULES = settings.AUTH0_RULES
+elif getattr(settings, 'SOCIAL_AUTH_AUTH0_RULES', None) is not None:
+    AUTH0_RULES = settings.SOCIAL_AUTH_AUTH0_RULES
+else:
+    AUTH0_RULES = DEFAULT_AUTH0_RULES
