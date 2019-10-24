@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-auth0-user"
-version = "0.15.2"
+version = "0.15.3"
 license = "BSD-2-Clause"
 repository = "https://github.com/techdragon/django-auth0-user"
 description = "Django Authentication and Authorisation using Auth0 and Python Social Auth"

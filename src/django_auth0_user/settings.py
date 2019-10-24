@@ -26,7 +26,10 @@ else:
 
 
 # We need a namespace prefix provided by the user as there is not really a safe and unique default.
-NAMESPACED_KEY_PREFIX = settings.AUTH0_NAMESPACED_KEY_PREFIX
+if getattr(settings, 'AUTH0_NAMESPACED_KEY_PREFIX', None) is not None:
+    NAMESPACED_KEY_PREFIX = settings.AUTH0_NAMESPACED_KEY_PREFIX
+else:
+    NAMESPACED_KEY_PREFIX = None
 
 
 if getattr(settings, 'AUTH0_NAMESPACED_USER_METADATA_KEY', None) is not None:
