@@ -11,6 +11,8 @@ from django_auth0_user.settings import AUTH0_RULE_CONFIGS
 from django_auth0_user.settings import AUTH0_RULES
 from django_auth0_user.settings import AUTH0_DOMAIN
 from django_auth0_user.settings import AUTH0_API_URL
+from django_auth0_user.settings import AUTH0_MANAGEMENT_API_CLIENT_ID
+from django_auth0_user.settings import AUTH0_MANAGEMENT_API_CLIENT_SECRET
 
 
 # TODO: The logging here should be more consistent.
@@ -24,13 +26,6 @@ AUTH0_CACHED_TOKEN_TTL = 3600  # 1 hour = 3600 seconds
 # AUTH0_API_URL = 'https://' + AUTH0_DOMAIN + '/api/v2/'
 # domain = AUTH0_DOMAIN
 
-# Non Interactive API Client ID
-AUTH0_MANAGEMENT_API_CLIENT_ID = getattr(settings, 'AUTH0_MANAGEMENT_API_CLIENT_ID')
-# non_interactive_client_id = 'exampleid'
-
-# Non Interactive API Client Secret
-AUTH0_MANAGEMENT_API_CLIENT_SECRET = getattr(settings, 'AUTH0_MANAGEMENT_API_CLIENT_SECRET')
-# non_interactive_client_secret = 'examplesecret'
 
 # TODO: handle empty domain, client ID and client secret, in a user friendly fashion.
 

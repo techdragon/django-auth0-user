@@ -25,6 +25,30 @@ else:
     USER_ID_IS_DJANGO_USERNAME = True
 
 
+#
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃  Auth0 Management API Settings  ┃▓▓
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛▓▓
+#   ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+if getattr(settings, 'AUTH0_MANAGEMENT_API_CLIENT_ID', None) is not None:
+    AUTH0_MANAGEMENT_API_CLIENT_ID = settings.AUTH0_MANAGEMENT_API_CLIENT_ID
+if getattr(settings, 'SOCIAL_AUTH_AUTH0_MANAGEMENT_API_CLIENT_ID', None) is not None:
+    AUTH0_MANAGEMENT_API_CLIENT_ID = settings.SOCIAL_AUTH_AUTH0_MANAGEMENT_API_CLIENT_ID
+else:
+    AUTH0_MANAGEMENT_API_CLIENT_ID = None
+if getattr(settings, 'AUTH0_MANAGEMENT_API_CLIENT_SECRET', None) is not None:
+    AUTH0_MANAGEMENT_API_CLIENT_SECRET = settings.AUTH0_MANAGEMENT_API_CLIENT_SECRET
+if getattr(settings, 'SOCIAL_AUTH_AUTH0_MANAGEMENT_API_CLIENT_SECRET', None) is not None:
+    AUTH0_MANAGEMENT_API_CLIENT_SECRET = settings.SOCIAL_AUTH_AUTH0_MANAGEMENT_API_CLIENT_SECRET
+else:
+    AUTH0_MANAGEMENT_API_CLIENT_SECRET = None
+
+
+#
+
+
 # We need a namespace prefix provided by the user as there is not really a safe and unique default.
 if getattr(settings, 'AUTH0_NAMESPACED_KEY_PREFIX', None) is not None:
     NAMESPACED_KEY_PREFIX = settings.AUTH0_NAMESPACED_KEY_PREFIX
