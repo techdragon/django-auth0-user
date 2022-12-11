@@ -4,7 +4,7 @@
   "description": "The purpose of this article is to demonstrate how to call a backend API using an access token",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "helmet": "^3.21.0",
     "jwks-rsa": "^1.6.0",
